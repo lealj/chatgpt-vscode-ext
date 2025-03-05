@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { makeApiCall } from './utils/utils';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -26,10 +27,13 @@ export function activate(context: vscode.ExtensionContext) {
 			const selectionRange = new vscode.Range(selection.start.line, selection.start.character, selection.end.line, selection.end.character);
 			const highlighted = editor.document.getText(selectionRange);
 			vscode.window.showInformationMessage(highlighted);
+
+			makeApiCall(highlighted);
 		} else{
 			vscode.window.showInformationMessage("Nothing was selected, stopping.");
 		}
 	});
+
 	context.subscriptions.push(disposable1);
 	context.subscriptions.push(disposable);
 }
