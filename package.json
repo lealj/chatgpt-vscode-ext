@@ -18,7 +18,7 @@
         "title": "Hello World"
       },
       {
-        "command": "theasdfllmext.testme",
+        "command": "theasdfllmext.captureText",
         "title": "This is a test"
       }
     ]

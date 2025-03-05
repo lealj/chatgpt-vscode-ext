@@ -19,8 +19,16 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('Hello World from llm_vscode_ext! hohoho');
 	});
 
-	const disposable1 = vscode.commands.registerCommand('theasdfllmext.testme', () => {
-		vscode.window.showInformationMessage('This is a test!');
+	const disposable1 = vscode.commands.registerCommand('theasdfllmext.captureText', () => {
+		const editor = vscode.window.activeTextEditor;
+		const selection = editor?.selection;
+		if (selection && !selection.isEmpty) {
+			const selectionRange = new vscode.Range(selection.start.line, selection.start.character, selection.end.line, selection.end.character);
+			const highlighted = editor.document.getText(selectionRange);
+			vscode.window.showInformationMessage(highlighted);
+		} else{
+			vscode.window.showInformationMessage("Nothing was selected, stopping.");
+		}
 	});
 	context.subscriptions.push(disposable1);
 	context.subscriptions.push(disposable);
