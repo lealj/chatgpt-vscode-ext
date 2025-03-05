@@ -16,6 +16,10 @@
       {
         "command": "theasdfllmext.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "theasdfllmext.testme",
+        "title": "This is a test"
       }
     ]
   },

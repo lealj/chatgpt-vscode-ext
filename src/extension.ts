@@ -16,11 +16,17 @@ export function activate(context: vscode.ExtensionContext) {
 	const disposable = vscode.commands.registerCommand('theasdfllmext.helloWorld', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from llm_vscode_ext!');
+		vscode.window.showInformationMessage('Hello World from llm_vscode_ext! hohoho');
 	});
 
+	const disposable1 = vscode.commands.registerCommand('theasdfllmext.testme', () => {
+		vscode.window.showInformationMessage('This is a test!');
+	});
+	context.subscriptions.push(disposable1);
 	context.subscriptions.push(disposable);
 }
+
+
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
