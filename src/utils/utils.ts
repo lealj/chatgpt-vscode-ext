@@ -1,11 +1,10 @@
 import OpenAI from "openai";
 
 export async function makeApiCall(text: string) {
-    // Having this outside of function was breaking app
+    // Having this outside of function was breaking app.
+    // Using organization and project params didn't work.
     const openai = new OpenAI({
-        apiKey: process.env['OPENAI_API_KEY'],
-        organization: process.env['ORG'],
-        project: process.env['PROJECT']
+        apiKey: process.env['OPENAI_API_KEY']
     });
     const model = process.env.AI_MODEL as string;
 
