@@ -1,12 +1,12 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { makeApiCall } from './utils/utils';
+import path from 'path';
+import dotenv from 'dotenv';
+dotenv.config({path: path.resolve(__dirname, '../.env')}); // Not using abs. path was not working.
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "theasdfllmext" is now active!');
 
@@ -25,16 +25,21 @@ export function activate(context: vscode.ExtensionContext) {
 		if (selection && !selection.isEmpty) {
 			const selectionRange = new vscode.Range(selection.start.line, selection.start.character, selection.end.line, selection.end.character);
 			const highlighted = editor.document.getText(selectionRange);
-			vscode.window.showInformationMessage(highlighted);
+
+			makeApiCall(highlighted).then(response => {
+				vscode.window.showInformationMessage(response);
+			})
+			.catch(err => {
+				vscode.window.showInformationMessage("Error making api call: " + err.message);
+			});
 		} else{
 			vscode.window.showInformationMessage("Nothing was selected, stopping.");
 		}
 	});
+
 	context.subscriptions.push(disposable1);
 	context.subscriptions.push(disposable);
 }
-
-
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
