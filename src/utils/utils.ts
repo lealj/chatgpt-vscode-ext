@@ -1,13 +1,34 @@
 import OpenAI from "openai";
-require('dotenv').config();
-
-const openai = new OpenAI({
-    organization: process.env.ORG_ID,
-    project: process.env.PROJ_ID,
-});
 
 export async function makeApiCall(text: string) {
-    const url = "https://webhook.site/0baa8f3b-413c-4ffe-83d7-9220e36ad5aa";
+    // Having this outside of function was breaking app
+    const openai = new OpenAI({
+        apiKey: process.env['OPENAI_API_KEY'],
+        organization: process.env['ORG'],
+        project: process.env['PROJECT']
+    });
+    const model = process.env.AI_MODEL as string;
 
-    
+    // The question about text that user wants an answer to. 
+    const query = "What's wrong with this code?";
+
+    // A 'behavior' assigned to the model.
+    const systemContent = "You are a helpful assistant that answers programming questions.";
+
+    const completion = await openai.chat.completions.create({
+        model: model,
+        messages: [
+            {
+                role: "system",
+                content: systemContent
+            },
+            {
+                role: "user",
+                content: query + " " + text
+            }
+        ],
+        max_tokens: 150
+    });
+
+    return completion.choices[0].message.content ?? "No response from api...";
 }
